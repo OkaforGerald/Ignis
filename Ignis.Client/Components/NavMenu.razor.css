@@ -1,0 +1,26 @@
+﻿.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+    .nav-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+.nav-icon {
+    font-size: 24px;
+    width: 30px;
+    text-align: center;
+}
+
+.nav-text {
+    margin-left: 10px;
+}
+
+::deep .sidebar.closed .nav-text {
+    display: none;
+}

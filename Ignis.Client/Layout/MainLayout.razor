@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+<div class="layout-container">
+    <Sidebar @bind-IsOpen="@isSidebarOpen" />
+    <div class="main-content" style="@MainContentStyle">
+        <header class="top-row">
+            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        </header>
+        <main class="content">
+            @Body
+        </main>
+    </div>
+</div>
+
+@code {
+    private bool isSidebarOpen = true;
+    private string MainContentStyle => $"margin-left: {(isSidebarOpen ? "250px" : "0")}; transition: margin-left 0.5s;";
+}

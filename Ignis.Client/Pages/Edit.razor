@@ -1,0 +1,14 @@
+﻿@page "/edit"
+@using SkiaSharp
+@using SkiaSharp.Views.Blazor
+@inject HttpClient HttpClient
+@inject IJSRuntime JSRuntime
+
+<div @ref="canvasContainer" style="display:flex; flex-direction: column; width: calc(100% - 200px); height: 100%;">
+    <SKGLView @ref="skglView" OnPaintSurface="PaintSurface" 
+        IgnorePixelScaling="false"
+        EnableRenderLoop="false"/>
+</div>
+
+<button @onclick="ApplyGreyscale">Apply Greyscale</button>
+<button @onclick="ApplyInvert">Invert Colors</button>
