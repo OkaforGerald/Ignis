@@ -1,4 +1,5 @@
 using Entities.Models;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,15 @@ builder.Services.AddControllers()
 
 builder.Services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("sqlConnection")));
+
+builder.Services.AddHangfire(x =>
+{
+    x.UseRecommendedSerializerSettings()
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseSqlServerStorage(builder.Configuration.GetConnectionString("sqlConnection"));
+});
+
+builder.Services.AddHangfireServer();
 
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
 
@@ -87,6 +97,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseHangfireDashboard();
 
 app.MapControllers();
 

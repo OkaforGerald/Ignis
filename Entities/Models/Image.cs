@@ -36,7 +36,7 @@ namespace Entities.Models
 
         public string? Model { get; set; }
 
-        public DateTime DateTaken { get; set; }
+        public DateTime? DateTaken { get; set; }
 
         public float FocalLength { get; set; }
 
