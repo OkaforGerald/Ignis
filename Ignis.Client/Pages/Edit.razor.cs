@@ -15,6 +15,9 @@ namespace Ignis.Client.Pages
         private bool isLoaded = false;
         private int containerWidth;
         private int containerHeight;
+        private bool StopRotating;
+        private float RotatingDegree = 0;
+        private System.Timers.Timer timer;
 
         protected override async Task OnInitializedAsync()
         {
@@ -48,6 +51,23 @@ namespace Ignis.Client.Pages
                 containerHeight = dimensions[1];
                 StateHasChanged();
             }
+
+            timer = new System.Timers.Timer(5000);
+            timer.Elapsed += (sender, args) =>
+            {
+                if (StopRotating)
+                {
+                    timer.Stop();
+                }
+
+                if(!StopRotating)
+                {
+                    RotatingDegree += 45;
+
+                    skglView.Invalidate();
+                }
+            };
+            timer.Start();
         }
 
         public async Task LoadImage(string url)
@@ -78,12 +98,14 @@ namespace Ignis.Client.Pages
             canvas.Clear(SKColors.Black);
 
             var canvasBounds = new SKRectI(0, 0, args.BackendRenderTarget.Width, args.BackendRenderTarget.Height);
+
+            canvas.RotateDegrees(RotatingDegree, args.BackendRenderTarget.Width / 2.0f, args.BackendRenderTarget.Height / 2.0f);
             if (isLoaded && originalBitmap != null)
-            {
-                //var rect = GetRenderRect(originalBitmap, new SKSize(containerWidth, containerHeight));
-                var rect = GetRenderRect(originalBitmap, canvasBounds.Size);
-                canvas.DrawBitmap(originalBitmap, rect);
-            }
+                {
+                    //var rect = GetRenderRect(originalBitmap, new SKSize(containerWidth, containerHeight));
+                    var rect = GetRenderRect(originalBitmap, canvasBounds.Size);
+                    canvas.DrawBitmap(originalBitmap, rect);
+                }
         }
 
         private SKRect GetRenderRect(SKBitmap bmp, SKSize size)
